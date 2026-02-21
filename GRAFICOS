@@ -1,0 +1,101 @@
+clc;
+clear;
+close all;
+
+%% Parámetros generales
+Fs = 1000;              % Frecuencia de muestreo (Hz)
+T = 1/Fs;               % Periodo de muestreo
+L = 1000;               % Número de muestras
+t = (0:L-1)*T;          % Vector de tiempo
+
+%% ===============================
+%% 1. Señal Pulso Rectangular
+%% ===============================
+pulso = zeros(1,L);
+pulso(200:400) = 1;     % Pulso rectangular entre muestras
+
+figure;
+subplot(3,1,1)
+plot(t, pulso)
+title('Pulso Rectangular')
+xlabel('Tiempo (s)')
+ylabel('Amplitud')
+grid on
+
+% Transformada de Fourier
+P = fft(pulso);
+f = Fs*(0:L-1)/L;       % Vector de frecuencias
+
+subplot(3,1,2)
+plot(f, abs(P))
+title('Magnitud del Espectro - Pulso')
+xlabel('Frecuencia (Hz)')
+ylabel('|P(f)|')
+grid on
+
+subplot(3,1,3)
+plot(f, angle(P))
+title('Fase del Espectro - Pulso')
+xlabel('Frecuencia (Hz)')
+ylabel('Fase (rad)')
+grid on
+
+%% ===============================
+%% 2. Función Escalón
+%% ===============================
+escalon = ones(1,L);
+escalon(1:200) = 0;
+
+figure;
+subplot(3,1,1)
+plot(t, escalon)
+title('Función Escalón')
+xlabel('Tiempo (s)')
+ylabel('Amplitud')
+grid on
+
+E = fft(escalon);
+
+subplot(3,1,2)
+plot(f, abs(E))
+title('Magnitud del Espectro - Escalón')
+xlabel('Frecuencia (Hz)')
+ylabel('|E(f)|')
+grid on
+
+subplot(3,1,3)
+plot(f, angle(E))
+title('Fase del Espectro - Escalón')
+xlabel('Frecuencia (Hz)')
+ylabel('Fase (rad)')
+grid on
+
+%% ===============================
+%% 3. Señal Senoidal
+%% ===============================
+f0 = 50;                        % Frecuencia de la señal (Hz)
+seno = sin(2*pi*f0*t);
+
+figure;
+subplot(3,1,1)
+plot(t, seno)
+title('Señal Senoidal (50 Hz)')
+xlabel('Tiempo (s)')
+ylabel('Amplitud')
+grid on
+
+S = fft(seno);
+
+subplot(3,1,2)
+plot(f, abs(S))
+title('Magnitud del Espectro - Senoidal')
+xlabel('Frecuencia (Hz)')
+ylabel('|S(f)|')
+grid on
+
+subplot(3,1,3)
+plot(f, angle(S))
+title('Fase del Espectro - Senoidal')
+xlabel('Frecuencia (Hz)')
+ylabel('Fase (rad)')
+grid on
